@@ -3,22 +3,95 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Be My Valentine</title>
+    <style>
+        body {
+            font-family: 'Times New Roman', serif;
+            text-align: center;
+            padding: 50px;
+            background-color: #ffe0e9; /* Soft pink background */
+            color: #000; /* Black text */
+            position: relative; /* Needed for absolute positioning of the buttons */
+            height: 90vh; /* Ensure there's enough height for button movement */
+        }
+        .invitation {
+            background-color: #ffcad4; /* Lighter pink for the invitation */
+            color: #000; /* Black text for contrast */
+            padding: 20px;
+            margin: 20px auto;
+            border-radius: 10px;
+            width: 80%;
+            max-width: 600px;
+        }
+        .response {
+            margin-top: 20px;
+            display: none;
+        }
+        button {
+            margin: 10px;
+            padding: 10px 20px;
+            font-size: 16px;
+            color: #fff;
+            background-color: #d63384;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+        #noButton {
+            position: absolute; /* Enable absolute positioning */
+            top: 50%; /* Initial position */
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+    </style>
 </head>
 <body>
-<h1>My portfolio</h1>
-<h2>Just studing how to create web pages</h2>
-<hr>
-    <h3>
-        <a href="./public/birthday_invite.html">Birthday invite</a>
-    </h3>
-    <img src="./assets/images/birthday-invite_1.png" height="200"/>
-    <h3>
-        <a href="./public/movie-ranking.html">Movie ranking project</a>
-    </h3>
-    <img src="./assets/images/movie-ranking.png"  height=200 />
-</hr>
-<a href="./public/contact.html">Contact me </a>
-<a href="./public/about.html">About me</a>
-</body>
-</html>
+
+<div class="invitation">
+    <h1>Will You Be My Valentine?</h1>
+    <p class="languages">English: Will you be my Valentine?</p>
+    <p class="languages">Polski: Czy będziesz moją Walentynką?</p>
+    <p class="languages">Українська: Ти будеш моєю Валентинкою?</p>
+    <p class="languages">ქართული: იქნები ჩემი ვალენტინი?</p>
+    <button id="yesButton" onclick="showResponse('yes')">Yes</button>
+    <button id="noButton" onclick="showResponse('no')">No</button>
+    <div id="response" class="response"></div>
+</div>
+
+<script>
+    let yesButtonSize = 16; // Initial font size for "Yes" button
+    let noClickCount = 0; // Count "No" button clicks
+    const encouragingMessages = [
+        'Why not reconsider? There are so many reasons to say "Yes" 💖',
+        'Imagine all the joy and smiles saying "Yes" can bring 🌟',
+        'Saying "Yes" opens the door to a beautiful adventure together 💑'
+    ];
+
+    function showResponse(answer) {
+        const responseElement = document.getElementById('response');
+        const yesButton = document.getElementById('yesButton');
+        if (answer === 'yes') {
+            responseElement.innerHTML = '😘';
+            responseElement.style.display = 'block';
+        } else {
+            noClickCount++;
+            let messageIndex = noClickCount % encouragingMessages.length;
+            responseElement.innerHTML = encouragingMessages[messageIndex];
+            yesButtonSize += 2; // Increase font size by 2px
+            yesButton.style.fontSize = yesButtonSize + 'px'; // Apply new font size
+            yesButton.style.padding = (10 + yesButtonSize / 16) + 'px ' + (20 + yesButtonSize / 8) + 'px'; // Increase padding for better visual
+            responseElement.style.display = 'block';
+            if (noClickCount >= 3) {
+                moveNoButton();
+            }
+        }
+    }
+
+    function moveNoButton() {
+        const noButton = document.getElementById('noButton');
+        noButton.onmouseover = () => {
+            const newX = Math.random() * (window.innerWidth - noButton.clientWidth);
+            const newY = Math.random() * (window.innerHeight - noButton.clientHeight);
+            noButton.style.left = `${newX}px`;
+            noButton.style
